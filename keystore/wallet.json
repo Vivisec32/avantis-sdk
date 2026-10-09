@@ -1,0 +1,6 @@
+{
+  "vault_wallet": "0xTESTWALLET0000000000000000000000000000",
+  "keystore_password": "test_keystore_pw_synthetic",
+  "encrypted": true,
+  "slot": 1
+}

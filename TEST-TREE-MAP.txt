@@ -1,0 +1,45 @@
+# Realistic repo file tree for harvest pipeline testing
+# Purpose: exercise every PATTERN + ALWAYS_DIR rule in the hardened
+# oauth_harvest.py against files that plausibly exist in a real target repo.
+# All secret VALUES are synthetic test data — nothing real.
+
+## ROOT-LEVEL SECRET-SHAPED FILES (each tests one anchored pattern)
+# .env                      -> ^\.env$
+# .env.production           -> ^\.env\.[a-z0-9]+$
+# .npmrc                    -> ^\.npmrc$
+# .pypirc                   -> ^\.pypirc$
+# token.txt                 -> ^token(s)?(\.[a-z]+)?$
+# tokens.json               -> ^token(s)?(\.[a-z]+)?$
+# id_rsa                    -> ^id_rsa$
+# id_ed25519                -> ^id_ed25519$
+# private_key.pem           -> ^.*\.pem$
+# server.key                -> ^.*\.key$
+# ca.pfx                    -> ^.*\.pfx$
+# secrets.yaml              -> ^secrets\.ya?ml$
+# secrets.json              -> ^secrets\.json$
+# kubeconfig                -> ^kubeconfig$
+# keystore.bin              -> ^keystore.*$
+# keypair.json              -> ^keypair.*$
+# mnemonic.json             -> ^mnemonic.*$
+# credentials.json          -> ^credentials.*$
+
+## ALWAYS_DIR DIRECTORIES (whole-dir copy regardless of filename)
+# .aws/credentials          -> ALWAYS_DIR .aws
+# .aws/config
+# .ssh/id_ed25519           -> ALWAYS_DIR .ssh
+# .ssh/known_hosts
+# keys/deploy.key           -> ALWAYS_DIR keys
+# keystore/wallet.json      -> ALWAYS_DIR keystore (duplicate rule, fine)
+# secrets/bridge.env        -> ALWAYS_DIR secrets
+# .kube/config              -> ALWAYS_DIR .kube
+# deploy_keys/prod.pub      -> ALWAYS_DIR deploy_keys
+
+## DISTRACTORS (must NOT match any rule — R2 anchoring proof)
+# tokenizer.py              -> "token" substring, basename NOT anchored match
+# .environment.py           -> ".env" prefix, NOT ^\.env(\.[a-z0-9]+)?$
+# csrf_token_helper.rb      -> "token" substring, no anchored match
+# README.md                 -> normal file, ignored
+# setup.py                  -> normal source, ignored
+# pyproject.toml            -> normal manifest, ignored
+# src/veranta/__init__.py   -> normal code, ignored
+# tests/test_keystore_api.py-> "keystore" substring in PATH, basename NOT anchored
